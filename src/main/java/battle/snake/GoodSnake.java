@@ -96,6 +96,7 @@ public class GoodSnake implements SnakeAI {
 			}
 		}
 
+
 		// Left wall
 		if (head.x == 0) {
 			if (head.y == height-1) { // Bottom-left corner
@@ -113,6 +114,13 @@ public class GoodSnake implements SnakeAI {
 			} else if (lastMoved(us) == Direction.LEFT) { // Pointing at left wall
 				valid.left = false;
 			}
+		}
+
+		// Top wall
+		if (head.y == 0) {
+			valid.up = false;
+		} else if (head.y == height - 1) {
+			valid.down = false;
 		}
 
 		if (valid.up) {
