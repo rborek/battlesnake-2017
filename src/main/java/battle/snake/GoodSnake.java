@@ -370,10 +370,11 @@ public class GoodSnake implements SnakeAI {
 				}
 			}
 		}
-
-		for (DirectionArea d : maxes) {
-			if (d.leadsToFood) {
-				return d.dir;
+		if (us.health < 60) {
+			for (DirectionArea d : maxes) {
+				if (d.leadsToFood) {
+					return d.dir;
+				}
 			}
 		}
 		for (DirectionArea d : maxes) {
