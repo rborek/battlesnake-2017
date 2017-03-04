@@ -355,15 +355,15 @@ public class GoodSnake implements SnakeAI {
 		}
 
 		if (!areas.isEmpty()) {
-			int min = Integer.MAX_VALUE;
-			DirectionArea minArea = null;
+			int max = Integer.MIN_VALUE;
+			DirectionArea maxArea = null;
 			for (DirectionArea d : areas) {
-				if (d.area < min) {
-					min = d.area;
-					minArea = d;
+				if (d.area > max) {
+					max = d.area;
+					maxArea = d;
 				}
 			}
-			return minArea.dir;
+			return maxArea.dir;
 		}
 
 		System.out.println("whoops");
