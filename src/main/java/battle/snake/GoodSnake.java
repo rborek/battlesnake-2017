@@ -6,12 +6,12 @@ import java.util.ArrayList;
 public class GoodSnake implements SnakeAI {
 	@Override
 	public String getName() {
-		return "Good snake";
+		return "I Can't Believe It's Not A Snake!";
 	}
 
 	@Override
 	public String getColor() {
-		return "red";
+		return "gold";
 	}
 
 	public static Direction lastMoved(Snake snake) {
