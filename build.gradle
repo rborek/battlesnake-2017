@@ -13,7 +13,7 @@ repositories {
 mainClassName='battle.snake.App'
 
 task stage {
-    dependsOn: build
+    dependsOn=build
 }
 
 dependencies {
