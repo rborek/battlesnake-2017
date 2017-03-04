@@ -33,21 +33,46 @@ public class GoodSnake implements SnakeAI {
 		}
 	}
 
-	public static Direction toFood(Point head, Point food) {
+	public static getFoodDirections toFood(Point head, Point food) {
 		int xDiff = food.x - head.x;
 		int yDiff = food.y - head.y;
 
+		getFoodDirections move = new getFoodDirections();
 		if (Math.abs(xDiff) > Math.abs(yDiff)) {
 			if (xDiff < 0) {
-				return Direction.LEFT;
+				move.primary = Direction.LEFT;
+				if (yDiff < 0) {
+					move.backup = Direction.UP;
+					return move;
+				} else {
+					move.backup = Direction.DOWN;
+					return move;
+				}
 			} else {
-				return Direction.RIGHT;
+				move.primary = Direction.RIGHT;
+				if (yDiff < 0) {
+					move.backup = Direction.UP;
+					return move;
+				} else {
+					move.backup = Direction.DOWN;
+					return move;
+				}
 			}
 		} else {
 			if (yDiff < 0) {
-				return Direction.UP;
+				move.primary = Direction.UP;
+				if(xDiff < 0) {
+					move.backup = Direction.LEFT;
+				} else {
+					move.backup = Direction.RIGHT;
+				}
 			} else {
-				return Direction.DOWN;
+				move.primary = Direction.DOWN;
+				if(xDiff < 0) {
+					move.backup = Direction.LEFT;
+				} else {
+					move.backup = Direction.RIGHT;
+				}
 			}
 		}
 	}
