@@ -77,7 +77,7 @@ public class App {
 		}
 		Direction toMove = snake.move(width, height, snakes, food, self, turn, gameId);
 		response.type("application/json");
-		String responseString = "{\"move\":\"" + toMove.toString() + "\"}";
+		String responseString = "{\"move\":\"" + toMove.toString() + "\", \"taunt\": \"" + snake.getTaunt() + "\"}";
 		System.out.println(responseString);
 		return responseString;
 	}
