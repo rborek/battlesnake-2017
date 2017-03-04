@@ -1,1 +1,1 @@
-web: ./build/install/battlesnake/bin/battlesnake
+web: build/install/battlesnake/bin/battlesnake
