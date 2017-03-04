@@ -57,8 +57,6 @@ public class GoodSnake implements SnakeAI {
 				} else {
 					return Direction.LEFT;
 				}
-			} else {
-				return Direction.DOWN;
 			}
 		}
 
@@ -76,9 +74,6 @@ public class GoodSnake implements SnakeAI {
 				} else {
 					return Direction.DOWN;
 				}
-			} else {
-				return Direction.DOWN;
-			}
 		}
 
 		return lastMoved(us);
