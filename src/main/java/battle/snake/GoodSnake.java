@@ -56,7 +56,7 @@ public class GoodSnake implements SnakeAI {
 				} else {
 					move.backup = Direction.DOWN;
 					return move;
-			}
+				}
 			}
 		} else {
 			if (yDiff < 0) {
@@ -148,10 +148,10 @@ public class GoodSnake implements SnakeAI {
 		}
 
 		for(int i = 0; i < food.size(); i++) {
-				Point p = food.get(i);
-				TileEntry entry = new TileEntry();
-				entry.type = TileType.FOOD;
-				grid[p.x][p.y] = entry;
+			Point p = food.get(i);
+			TileEntry entry = new TileEntry();
+			entry.type = TileType.FOOD;
+			grid[p.x][p.y] = entry;
 		}
 
 		valid.disableDirection(lastMoved(us).oppositeDir());
@@ -257,21 +257,21 @@ public class GoodSnake implements SnakeAI {
 
 		if (valid.isValid(lastMoved(us))) {
 			return lastMoved(us);
-		} else {
-			if (valid.up) {
-				return Direction.UP;
-			}
-			if (valid.down) {
-				return Direction.DOWN;
-			}
-			if (valid.left) {
-				return Direction.LEFT;
-			}
-			if (valid.right) {
-				return Direction.RIGHT;
-			}
-
 		}
+		if (valid.up) {
+			return Direction.UP;
+		}
+		if (valid.down) {
+			return Direction.DOWN;
+		}
+		if (valid.left) {
+			return Direction.LEFT;
+		}
+		if (valid.right) {
+			return Direction.RIGHT;
+		}
+		System.out.println("whoops");
+		return Direction.INVALID;
 
 	}
 }
