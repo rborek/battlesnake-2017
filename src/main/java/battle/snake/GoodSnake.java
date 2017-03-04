@@ -141,6 +141,14 @@ public class GoodSnake implements SnakeAI {
 		flood(grid, result, row, col + 1);
 	}
 
+	private static boolean alreadyAddedDir(ArrayList<DirectionArea> da, Direction dir) {
+		for (DirectionArea dira : da) {
+			if (dira.dir == dir) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public Direction move(int width, int height, ArrayList<Snake> snakes, ArrayList<Point> food, String self, int turn, String gameId) {
@@ -259,6 +267,8 @@ public class GoodSnake implements SnakeAI {
 		} else if (head.y == height - 1) {
 			valid.down = false;
 		}
+		Point p = new Point(0,0);
+		ArrayList<DirectionArea> areas = new ArrayList<DirectionArea>();
 		if (food.size() > 0) {
 			Point closestFood = null;
 			int closest = Integer.MAX_VALUE;
@@ -272,8 +282,6 @@ public class GoodSnake implements SnakeAI {
 			FoodDirection dirs = toFood(head, closestFood);
 
 
-			Point p = new Point(0,0);
-			ArrayList<DirectionArea> areas = new ArrayList<DirectionArea>();
 			if (valid.isValid(dirs.primary)) {
 				p.setTo(head);
 				p.add(dirs.primary);
@@ -292,47 +300,65 @@ public class GoodSnake implements SnakeAI {
 				da.leadsToFood = true;
 				areas.add(da);
 			}
-			if (!areas.isEmpty()) {
-				int min = Integer.MAX_VALUE;
-				DirectionArea minArea = null;
-				for (DirectionArea d : areas) {
-					if (d.area < min) {
-						min = d.area;
-						minArea = d;
-					}
-				}
-				return minArea.dir;
-			}
 
-			if (valid.up) {
-				return Direction.UP;
-			}
-			if (valid.down) {
-				return Direction.DOWN;
-			}
-			if (valid.left) {
-				return Direction.LEFT;
-			}
-			if (valid.right) {
-				return Direction.RIGHT;
-			}
-		}
-
-		if (valid.isValid(lastMoved(us))) {
-			return lastMoved(us);
 		}
 		if (valid.up) {
-			return Direction.UP;
+			if (!alreadyAddedDir(areas, Direction.UP)) {
+				p.setTo(head);
+				p.add(Direction.UP);
+				DirectionArea da = new DirectionArea();
+				da.dir = Direction.UP;
+				da.area = floodArea(p, grid);
+				da.leadsToFood = false;
+				areas.add(da);
+			}
 		}
 		if (valid.down) {
-			return Direction.DOWN;
+			if (!alreadyAddedDir(areas, Direction.DOWN)) {
+				p.setTo(head);
+				p.add(Direction.DOWN);
+				DirectionArea da = new DirectionArea();
+				da.dir = Direction.DOWN;
+				da.area = floodArea(p, grid);
+				da.leadsToFood = false;
+				areas.add(da);
+			}
 		}
 		if (valid.left) {
-			return Direction.LEFT;
+			if (!alreadyAddedDir(areas, Direction.LEFT)) {
+				p.setTo(head);
+				p.add(Direction.LEFT);
+				DirectionArea da = new DirectionArea();
+				da.dir = Direction.LEFT;
+				da.area = floodArea(p, grid);
+				da.leadsToFood = false;
+				areas.add(da);
+			}
 		}
 		if (valid.right) {
-			return Direction.RIGHT;
+			if (!alreadyAddedDir(areas, Direction.RIGHT)) {
+				p.setTo(head);
+				p.add(Direction.RIGHT);
+				DirectionArea da = new DirectionArea();
+				da.dir = Direction.RIGHT;
+				da.area = floodArea(p, grid);
+				da.leadsToFood = false;
+				areas.add(da);
+			}
 		}
+
+		if (!areas.isEmpty()) {
+			int min = Integer.MAX_VALUE;
+			DirectionArea minArea = null;
+			for (DirectionArea d : areas) {
+				if (d.area < min) {
+					min = d.area;
+					minArea = d;
+				}
+			}
+			return minArea.dir;
+		}
+
 		System.out.println("whoops");
 		return Direction.INVALID;
 
