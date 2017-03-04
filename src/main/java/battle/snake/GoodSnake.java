@@ -228,7 +228,7 @@ public class GoodSnake implements SnakeAI {
 			Point closestFood = null;
 			int closest = Integer.MAX_VALUE;
 			for (Point p : food) {
-				int dist = Math.abs(head.x - p.x) + Math.abs(head.y - p.y):
+				int dist = Math.abs(head.x - p.x) + Math.abs(head.y - p.y);
 				if (dist < closest) {
 					closest = dist;
 					closestFood = p;
