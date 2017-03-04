@@ -134,7 +134,7 @@ public class GoodSnake implements SnakeAI {
 		if (result.mark[row][col]) return;
 
 		// make sure this pixel is the right color to fill
-		if (grid[row][col] != null) return;
+		if (grid[row][col] != null && grid[row][col].type != TileType.FOOD) return;
 
 		// fill pixel with target color and mark it as visited
 		result.mark[row][col] = true;
@@ -354,6 +354,7 @@ public class GoodSnake implements SnakeAI {
 			}
 		}
 
+		ArrayList<DirectionArea> maxes = new ArrayList<DirectionArea>();
 		if (!areas.isEmpty()) {
 			int max = Integer.MIN_VALUE;
 			DirectionArea maxArea = null;
@@ -363,9 +364,21 @@ public class GoodSnake implements SnakeAI {
 					maxArea = d;
 				}
 			}
-			return maxArea.dir;
+			for (DirectionArea d : areas) {
+				if (d.area == max) {
+					maxes.add(d);
+				}
+			}
 		}
 
+		for (DirectionArea d : maxes) {
+			if (d.leadsToFood) {
+				return d.dir;
+			}
+		}
+		for (DirectionArea d : maxes) {
+			return d.dir;
+		}
 		System.out.println("whoops");
 		return Direction.INVALID;
 
