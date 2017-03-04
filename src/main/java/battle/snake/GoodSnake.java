@@ -26,7 +26,7 @@ public class GoodSnake implements SnakeAI {
 			}
 		}
 		int xDiff = head.x - afterHead.x;
-		if (yDiff > 0) {
+		if (xDiff > 0) {
 			return Direction.RIGHT;
 		} else {
 			return Direction.LEFT;
