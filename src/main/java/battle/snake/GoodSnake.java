@@ -33,6 +33,25 @@ public class GoodSnake implements SnakeAI {
 		}
 	}
 
+	public static Direction toFood(Point head, Point food) {
+		int xDiff = food.x - head.x;
+		int yDiff = food.y - head.y;
+
+		if (Math.abs(xDiff) > Math.abs(yDiff)) {
+			if (xDiff < 0) {
+				return Direction.LEFT;
+			} else {
+				return Direction.RIGHT;
+			}
+		} else {
+			if (yDiff < 0) {
+				return Direction.UP;
+			} else {
+				return Direction.DOWN;
+			}
+		}
+	}
+
 	static final int EMPTY = 0;
 	static final int SNAKE_OCCUPIED = 1;
 	static final int FOOD = 2;
