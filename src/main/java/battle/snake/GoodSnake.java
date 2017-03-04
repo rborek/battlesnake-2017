@@ -83,16 +83,17 @@ public class GoodSnake implements SnakeAI {
 		valid.disableDirection(lastMoved(us).oppositeDir());
 
 
-		if (occupiedSpaces[head.x + 1][head.y] == SNAKE_OCCUPIED) {
+
+		if (head.x + 1 > width || occupiedSpaces[head.x + 1][head.y] == SNAKE_OCCUPIED) {
 			valid.right = false;
 		}
-		if (occupiedSpaces[head.x - 1][head.y] == SNAKE_OCCUPIED) {
+		if (head.x - 1 < 0 || occupiedSpaces[head.x - 1][head.y] == SNAKE_OCCUPIED) {
 			valid.left = false;
 		}
-		if (occupiedSpaces[head.x][head.y + 1] == SNAKE_OCCUPIED) {
+		if (head.y + 1 > height || occupiedSpaces[head.x][head.y + 1] == SNAKE_OCCUPIED) {
 			valid.down = false;
 		}
-		if (occupiedSpaces[head.x][head.y - 1] == SNAKE_OCCUPIED) {
+		if (head.y - 1 < 0 || occupiedSpaces[head.x][head.y - 1] == SNAKE_OCCUPIED) {
 			valid.up = false;
 		}
 
@@ -115,6 +116,7 @@ public class GoodSnake implements SnakeAI {
 			}
 		}
 
+
 		// Left wall
 		if (head.x == 0) {
 			if (head.y == height-1) { // Bottom-left corner
@@ -132,6 +134,13 @@ public class GoodSnake implements SnakeAI {
 			} else if (lastMoved(us) == Direction.LEFT) { // Pointing at left wall
 				valid.left = false;
 			}
+		}
+
+		// Top wall
+		if (head.y == 0) {
+			valid.up = false;
+		} else if (head.y == height - 1) {
+			valid.down = false;
 		}
 
 		if (valid.up) {
