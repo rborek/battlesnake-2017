@@ -91,10 +91,21 @@ public class App {
 
 
 	public static void main(String[] args) {
-		Spark.port(8080);
+		Spark.port(getHerokuAssignedPort());
 		Spark.get("/", (request, response) -> "no");
 		Spark.post("/start", App::startRequest);
 		Spark.post("/move", App::moveRequest);
 		Direction dir = Direction.fromString("down");
 	}
+
+	private static int getHerokuAssignedPort() {
+		final ProcessBuilder processBuilder = new ProcessBuilder();
+
+		if (processBuilder.environment().get("PORT") != null) {
+			return Integer.parseInt(processBuilder.environment().get("PORT"));
+		}
+
+		return 4567; // default Spark port
+	}
+
 }
