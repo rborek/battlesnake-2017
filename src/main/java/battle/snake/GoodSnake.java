@@ -99,9 +99,7 @@ public class GoodSnake implements SnakeAI {
 			}
 		}
 
-
-
-		return Direction.LEFT;
+		return lastMoved(us);
 
 	}
 }
