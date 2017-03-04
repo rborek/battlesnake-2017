@@ -16,7 +16,7 @@ public class GoodSnake implements SnakeAI {
 
 	public String getTaunt() {
 		String[] quotes = {"Who am I?", "Are you my dog?", "Why am I here?", "Who are you?", "I want cake.", "I like trains.", "What am I even doing?"};
-		int len = quotes.length();
+		int len = quotes.length;
 		int rand = (int)(Math.random() * len);
 		return quotes[rand];
 	}
@@ -279,11 +279,11 @@ public class GoodSnake implements SnakeAI {
 		if (food.size() > 0) {
 			Point closestFood = null;
 			int closest = Integer.MAX_VALUE;
-			for (Point p : food) {
-				int dist = Math.abs(head.x - p.x) + Math.abs(head.y - p.y);
+			for (Point _p : food) {
+				int dist = Math.abs(head.x - _p.x) + Math.abs(head.y - _p.y);
 				if (dist < closest) {
 					closest = dist;
-					closestFood = p;
+					closestFood = _p;
 				}
 			}
 			FoodDirection dirs = toFood(head, closestFood);
