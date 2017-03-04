@@ -26,8 +26,8 @@ public enum Direction {
 			return INVALID;
 		}
 	}
-	public static Direction oppositeDir(Direction dir) {
-		switch (dir) {
+	public Direction oppositeDir() {
+		switch (this) {
 			case UP:
 				return DOWN;
 			case DOWN:

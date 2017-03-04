@@ -33,6 +33,10 @@ public class GoodSnake implements SnakeAI {
 		}
 	}
 
+	static final int EMPTY = 0;
+	static final int SNAKE_OCCUPIED = 1;
+	static final int FOOD = 2;
+
 	@Override
 	public Direction move(int width, int height, ArrayList<Snake> snakes, ArrayList<Point> food, String self, int turn, String gameId) {
 		Snake us = null;
@@ -42,13 +46,35 @@ public class GoodSnake implements SnakeAI {
 			}
 		}
 		Point head = us.coords.get(0);
+		ValidMoves valid = new ValidMoves();
 
 		int[][] occupiedSpaces = new int[width][height];
 		for(int i = 0; i < snakes.size(); i++) {
 			for (int j = 0; j < snakes.get(i).coords.size(); j++) {
 				Point p = snakes.get(i).coords.get(j);
-				occupiedSpaces[p.x][p.y] = 1;
+				occupiedSpaces[p.x][p.y] = SNAKE_OCCUPIED;
 			}
+		}
+
+		for(int i = 0; i < food.size(); i++) {
+				Point p = food.get(i);
+				occupiedSpaces[p.x][p.y] = FOOD;
+		}
+
+		valid.disableDirection(lastMoved(us).oppositeDir());
+
+
+		if (occupiedSpaces[head.x + 1][head.y] == SNAKE_OCCUPIED) {
+			valid.right = false;
+		}
+		if (occupiedSpaces[head.x - 1][head.y] == SNAKE_OCCUPIED) {
+			valid.left = false;
+		}
+		if (occupiedSpaces[head.x][head.y + 1] == SNAKE_OCCUPIED) {
+			valid.down = false;
+		}
+		if (occupiedSpaces[head.x][head.y - 1] == SNAKE_OCCUPIED) {
+			valid.up = false;
 		}
 
 		// Right wall
@@ -65,10 +91,8 @@ public class GoodSnake implements SnakeAI {
 				} else {
 					return Direction.LEFT;
 				}
-			} else if (lastMoved(us) != Direction.RIGHT) { // Moving along wall
-				return lastMoved(us);
-			} else { // Moving at wall
-				return Direction.UP;
+			} else if (lastMoved(us) == Direction.RIGHT) { // Pointing at right wall
+				valid.right = false;
 			}
 		}
 
@@ -86,11 +110,22 @@ public class GoodSnake implements SnakeAI {
 				} else {
 					return Direction.DOWN;
 				}
-			} else if (lastMoved(us) != Direction.LEFT) { // Moving along wall
-				return lastMoved(us);
-			} else { // Moving at wall
-				return Direction.UP;
+			} else if (lastMoved(us) == Direction.LEFT) { // Pointing at left wall
+				valid.left = false;
 			}
+		}
+
+		if (valid.up) {
+			return Direction.UP;
+		}
+		if (valid.down) {
+			return Direction.DOWN;
+		}
+		if (valid.left) {
+			return Direction.LEFT;
+		}
+		if (valid.right) {
+			return Direction.RIGHT;
 		}
 
 		return lastMoved(us);
