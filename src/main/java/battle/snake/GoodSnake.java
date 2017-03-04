@@ -281,6 +281,7 @@ public class GoodSnake implements SnakeAI {
 				da.dir = dirs.primary;
 				da.area = floodArea(p, grid);
 				da.leadsToFood = true;
+				areas.add(da);
 			}
 			if (valid.isValid(dirs.backup)) {
 				p.setTo(head);
@@ -289,6 +290,7 @@ public class GoodSnake implements SnakeAI {
 				da.dir = dirs.backup;
 				da.area = floodArea(p, grid);
 				da.leadsToFood = true;
+				areas.add(da);
 			}
 			if (!areas.isEmpty()) {
 				int min = Integer.MAX_VALUE;
