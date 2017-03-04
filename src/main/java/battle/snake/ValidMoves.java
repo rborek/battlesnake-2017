@@ -15,6 +15,21 @@ public class ValidMoves {
 		if (down) dirs.add(Direction.DOWN);
 		return dirs;
 	}
+	public boolean isValid(Direction dir) {
+		switch (dir) {
+			case UP:
+				return up;
+			case DOWN:
+				return down;
+			case RIGHT:
+				return right;
+			case LEFT:
+				return left;
+			default:
+				break;
+		}
+		return false;
+	}
 	public void disableDirection(Direction dir) {
 		switch (dir) {
 			case UP:

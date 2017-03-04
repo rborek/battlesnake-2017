@@ -224,21 +224,54 @@ public class GoodSnake implements SnakeAI {
 		} else if (head.y == height - 1) {
 			valid.down = false;
 		}
+		if (food.size() > 0) {
+			Point closestFood = null;
+			int closest = Integer.MAX_VALUE;
+			for (Point p : food) {
+				int dist = Math.abs(head.x - p.x) + Math.abs(head.y - p.y):
+				if (dist < closest) {
+					closest = dist;
+					closestFood = p;
+				}
+			}
+			FoodDirection dirs = toFood(head, closestFood);
+			if (valid.isValid(dirs.primary)) {
+				return dirs.primary;
+			} else if (valid.isValid(dirs.backup)) {
+				return dirs.backup;
+			}
 
-		if (valid.up) {
-			return Direction.UP;
-		}
-		if (valid.down) {
-			return Direction.DOWN;
-		}
-		if (valid.left) {
-			return Direction.LEFT;
-		}
-		if (valid.right) {
-			return Direction.RIGHT;
+			if (valid.up) {
+				return Direction.UP;
+			}
+			if (valid.down) {
+				return Direction.DOWN;
+			}
+			if (valid.left) {
+				return Direction.LEFT;
+			}
+			if (valid.right) {
+				return Direction.RIGHT;
+			}
 		}
 
-		return lastMoved(us);
+		if (valid.isValid(lastMoved(us))) {
+			return lastMoved(us);
+		} else {
+			if (valid.up) {
+				return Direction.UP;
+			}
+			if (valid.down) {
+				return Direction.DOWN;
+			}
+			if (valid.left) {
+				return Direction.LEFT;
+			}
+			if (valid.right) {
+				return Direction.RIGHT;
+			}
+
+		}
 
 	}
 }
