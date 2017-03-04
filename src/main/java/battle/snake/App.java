@@ -63,12 +63,6 @@ public class App {
 			}
 		}
 
-		for (Snake taylorSwift : snakes) {
-			System.out.println("Snake name: " + taylorSwift.name);
-			for (Point p : taylorSwift.coords) {
-				System.out.println("(" + p.x + ", " + p.y + ")");
-			}
-		}
 		String self = "";
 		if (data.containsKey("you")) {
 			self = (String)data.get("you");

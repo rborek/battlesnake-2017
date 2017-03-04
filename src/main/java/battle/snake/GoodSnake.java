@@ -6,12 +6,12 @@ import java.util.ArrayList;
 public class GoodSnake implements SnakeAI {
 	@Override
 	public String getName() {
-		return "Good snake";
+		return "I Can't Believe It's Not A Snake!";
 	}
 
 	@Override
 	public String getColor() {
-		return "red";
+		return "gold";
 	}
 
 	public String getTaunt() {
@@ -113,6 +113,41 @@ public class GoodSnake implements SnakeAI {
 	public boolean inGrid(Point p, int width, int height) {
 		return p.x >= 0 && p.x < width && p.y >= 0 && p.y < height;
 	}
+
+
+	private static int floodArea(Point p, TileEntry[][] grid) {
+		FloodResult result = new FloodResult();
+		result.area = 0;
+		result.mark = new boolean[grid.length][grid[0].length];
+		flood(grid, result, p.x, p.y);
+		return result.area;
+	}
+
+	private static void flood(TileEntry[][] grid, FloodResult result, int row, int col) {
+		// make sure row and col are inside the image
+		if (row < 0) return;
+		if (col < 0) return;
+		if (row >= grid.length) return;
+		if (col >= grid[0].length) return;
+
+		// make sure this pixel hasn't been visited yet
+		if (result.mark[row][col]) return;
+
+		// make sure this pixel is the right color to fill
+		if (grid[row][col] != null) return;
+
+		// fill pixel with target color and mark it as visited
+		result.mark[row][col] = true;
+		result.area++;
+
+		// recursively fill surrounding pixels
+		// (this is equivelant to depth-first search)
+		flood(grid, result, row - 1, col);
+		flood(grid, result, row + 1, col);
+		flood(grid, result, row, col - 1);
+		flood(grid, result, row, col + 1);
+	}
+
 
 	@Override
 	public Direction move(int width, int height, ArrayList<Snake> snakes, ArrayList<Point> food, String self, int turn, String gameId) {
@@ -242,10 +277,38 @@ public class GoodSnake implements SnakeAI {
 				}
 			}
 			FoodDirection dirs = toFood(head, closestFood);
+
+
+			Point p = new Point(0,0);
+			ArrayList<DirectionArea> areas = new ArrayList<DirectionArea>();
 			if (valid.isValid(dirs.primary)) {
-				return dirs.primary;
-			} else if (valid.isValid(dirs.backup)) {
-				return dirs.backup;
+				p.setTo(head);
+				p.add(dirs.primary);
+				DirectionArea da = new DirectionArea();
+				da.dir = dirs.primary;
+				da.area = floodArea(p, grid);
+				da.leadsToFood = true;
+				areas.add(da);
+			}
+			if (valid.isValid(dirs.backup)) {
+				p.setTo(head);
+				p.add(dirs.backup);
+				DirectionArea da = new DirectionArea();
+				da.dir = dirs.backup;
+				da.area = floodArea(p, grid);
+				da.leadsToFood = true;
+				areas.add(da);
+			}
+			if (!areas.isEmpty()) {
+				int min = Integer.MAX_VALUE;
+				DirectionArea minArea = null;
+				for (DirectionArea d : areas) {
+					if (d.area < min) {
+						min = d.area;
+						minArea = d;
+					}
+				}
+				return minArea.dir;
 			}
 
 			if (valid.up) {
