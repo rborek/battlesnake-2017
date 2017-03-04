@@ -43,44 +43,52 @@ public class GoodSnake implements SnakeAI {
 		}
 		Point head = us.coords.get(0);
 
+		int[][] occupiedSpaces = new int[width][height];
+		for(int i = 0; i < snakes.size(); i++) {
+			for (int j = 0; j < snakes.get(i).coords.size(); j++) {
+				Point p = snakes.get(i).coords.get(j);
+				occupiedSpaces[p.x][p.y] = 1;
+			}
+		}
+
 		// Right wall
 		if (head.x == width-1) {
-			if (head.y == 0) {
+			if (head.y == 0) { // Top-right corner
 				if (lastMoved(us) == Direction.UP) {
 					return Direction.LEFT;
 				} else {
 					return Direction.DOWN;
 				}
-			} else if (head.y == height-1) {
+			} else if (head.y == height-1) { // Bottom-right corner
 				if (lastMoved(us) == Direction.RIGHT) {
 					return Direction.UP;
 				} else {
 					return Direction.LEFT;
 				}
-			} else if (lastMoved(us) != Direction.RIGHT) {
+			} else if (lastMoved(us) != Direction.RIGHT) { // Moving along wall
 				return lastMoved(us);
-			} else {
+			} else { // Moving at wall
 				return Direction.UP;
 			}
 		}
 
 		// Left wall
 		if (head.x == 0) {
-			if (head.y == height-1) {
+			if (head.y == height-1) { // Bottom-left corner
 				if (lastMoved(us) == Direction.DOWN) {
 					return Direction.RIGHT;
 				} else {
 					return Direction.UP;
 				}
-			} else if (head.y == 0) {
+			} else if (head.y == 0) { // Top-left corner
 				if (lastMoved(us) == Direction.UP) {
 					return Direction.RIGHT;
 				} else {
 					return Direction.DOWN;
 				}
-			} else if (lastMoved(us) != Direction.LEFT) {
+			} else if (lastMoved(us) != Direction.LEFT) { // Moving along wall
 				return lastMoved(us);
-			} else {
+			} else { // Moving at wall
 				return Direction.UP;
 			}
 		}
