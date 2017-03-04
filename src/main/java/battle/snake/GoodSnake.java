@@ -2,7 +2,6 @@ package battle.snake;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GoodSnake implements SnakeAI {
 	@Override
@@ -34,11 +33,11 @@ public class GoodSnake implements SnakeAI {
 		}
 	}
 
-	public static getFoodDirections toFood(Point head, Point food) {
+	public static FoodDirection toFood(Point head, Point food) {
 		int xDiff = food.x - head.x;
 		int yDiff = food.y - head.y;
 
-		getFoodDirections move = new getFoodDirections();
+		FoodDirection move = new FoodDirection();
 		if (Math.abs(xDiff) > Math.abs(yDiff)) {
 			if (xDiff < 0) {
 				move.primary = Direction.LEFT;
@@ -57,7 +56,7 @@ public class GoodSnake implements SnakeAI {
 				} else {
 					move.backup = Direction.DOWN;
 					return move;
-				}
+			}
 			}
 		} else {
 			if (yDiff < 0) {
@@ -76,11 +75,8 @@ public class GoodSnake implements SnakeAI {
 				}
 			}
 		}
+		return move;
 	}
-
-	static final int EMPTY = 0;
-	static final int SNAKE_OCCUPIED = 1;
-	static final int FOOD = 2;
 
 	public boolean tileIsSafe(TileEntry entry, ArrayList<Snake> snakes, Snake self) {
 		if (entry == null) {
