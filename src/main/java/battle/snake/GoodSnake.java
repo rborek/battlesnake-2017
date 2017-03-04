@@ -14,6 +14,13 @@ public class GoodSnake implements SnakeAI {
 		return "red";
 	}
 
+	public String getTaunt() {
+		String[] quotes = {"Who am I?", "Are you my dog?", "Why am I here?", "Who are you?", "I want cake.", "I like trains.", "What am I even doing?"};
+		int len = quotes.length();
+		int rand = (int)(Math.random() * len);
+		return quotes[rand];
+	}
+
 	public static Direction lastMoved(Snake snake) {
 		Point head = snake.coords.get(0);
 		Point afterHead = snake.coords.get(1);
