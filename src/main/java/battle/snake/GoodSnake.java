@@ -282,7 +282,7 @@ public class GoodSnake implements SnakeAI {
 		}
 		Point p = new Point(0,0);
 		ArrayList<DirectionArea> areas = new ArrayList<DirectionArea>();
-		FoodDirection dirs;
+		FoodDirection dirs = null;
 		if (food.size() > 0) {
 			Point closestFood = null;
 			int closest = Integer.MAX_VALUE;
