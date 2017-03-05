@@ -198,7 +198,7 @@ public class GoodSnake implements SnakeAI {
 
 		for(int i = 0; i < snakes.size(); i++) {
 			for (int j = 0; j < snakes.get(i).coords.size(); j++) {
-				if (j != snakes.get(i).coords.size() - 1 && snakes.get(i).couldEat) {
+				if (j != snakes.get(i).coords.size() - 1 || snakes.get(i).couldEat) {
 					Point p = snakes.get(i).coords.get(j);
 					TileEntry entry = new TileEntry();
 					entry.type = TileType.SNAKE_BODY;
