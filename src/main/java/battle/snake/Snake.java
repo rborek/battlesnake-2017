@@ -8,4 +8,5 @@ public class Snake {
 	String id;
 	String name;
 	String taunt;
+	boolean couldEat = false;
 }

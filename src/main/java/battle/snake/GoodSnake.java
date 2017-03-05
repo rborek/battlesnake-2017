@@ -163,6 +163,12 @@ public class GoodSnake implements SnakeAI {
 		TileEntry[][] grid = new TileEntry[width][height];
 		Point temp = new Point(0,0);
 		ValidMoves other = new ValidMoves();
+		for(int i = 0; i < food.size(); i++) {
+			Point p = food.get(i);
+			TileEntry entry = new TileEntry();
+			entry.type = TileType.FOOD;
+			grid[p.x][p.y] = entry;
+		}
 		for(Snake snake : snakes) {
 			if (snake.id.equals(self)) {
 				us = snake;
@@ -176,6 +182,9 @@ public class GoodSnake implements SnakeAI {
 					temp.setTo(snake.coords.get(0)); // temp points to snake's head
 					temp.add(dir);
 					if (inGrid(temp, width, height)) {
+						if (grid[temp.x][temp.y] != null && grid[temp.x][temp.y].type == TileType.FOOD) {
+							snake.couldEat = true;
+						}
 						TileEntry potential = new TileEntry();
 						potential.type = TileType.FUTURE_SNAKE_HEAD;
 						potential.snakeId = snake.id;
@@ -189,20 +198,17 @@ public class GoodSnake implements SnakeAI {
 
 		for(int i = 0; i < snakes.size(); i++) {
 			for (int j = 0; j < snakes.get(i).coords.size(); j++) {
-				Point p = snakes.get(i).coords.get(j);
-				TileEntry entry = new TileEntry();
-				entry.type = TileType.SNAKE_BODY;
-				entry.snakeId = snakes.get(i).id;
-				grid[p.x][p.y] = entry;
+				if (j != snakes.get(i).coords.size() - 1 && snakes.get(i).couldEat) {
+					Point p = snakes.get(i).coords.get(j);
+					TileEntry entry = new TileEntry();
+					entry.type = TileType.SNAKE_BODY;
+					entry.snakeId = snakes.get(i).id;
+					grid[p.x][p.y] = entry;
+
+				}
 			}
 		}
 
-		for(int i = 0; i < food.size(); i++) {
-			Point p = food.get(i);
-			TileEntry entry = new TileEntry();
-			entry.type = TileType.FOOD;
-			grid[p.x][p.y] = entry;
-		}
 
 		valid.disableDirection(lastMoved(us).oppositeDir());
 
