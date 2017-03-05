@@ -101,6 +101,7 @@ public class GoodSnake implements SnakeAI {
 				}
 			}
 			if (enemy.coords.size() < self.coords.size()) { // can ram into enemy head
+				entry.type = TileType.CAN_KILL;
 				return true;
 			}
 			return false;
@@ -302,6 +303,9 @@ public class GoodSnake implements SnakeAI {
 				p.setTo(head);
 				p.add(Direction.UP);
 				DirectionArea da = new DirectionArea();
+				if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
+					da.couldKill = true;
+				}
 				da.dir = Direction.UP;
 				da.area = floodArea(p, grid);
 				da.leadsToFood = false;
@@ -313,6 +317,9 @@ public class GoodSnake implements SnakeAI {
 				p.setTo(head);
 				p.add(Direction.DOWN);
 				DirectionArea da = new DirectionArea();
+				if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
+					da.couldKill = true;
+				}
 				da.dir = Direction.DOWN;
 				da.area = floodArea(p, grid);
 				da.leadsToFood = false;
@@ -324,6 +331,9 @@ public class GoodSnake implements SnakeAI {
 				p.setTo(head);
 				p.add(Direction.LEFT);
 				DirectionArea da = new DirectionArea();
+				if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
+					da.couldKill = true;
+				}
 				da.dir = Direction.LEFT;
 				da.area = floodArea(p, grid);
 				da.leadsToFood = false;
@@ -335,6 +345,9 @@ public class GoodSnake implements SnakeAI {
 				p.setTo(head);
 				p.add(Direction.RIGHT);
 				DirectionArea da = new DirectionArea();
+				if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
+					da.couldKill = true;
+				}
 				da.dir = Direction.RIGHT;
 				da.area = floodArea(p, grid);
 				da.leadsToFood = false;
@@ -356,6 +369,9 @@ public class GoodSnake implements SnakeAI {
 			int max = Integer.MIN_VALUE;
 			DirectionArea maxArea = null;
 			for (DirectionArea d : areas) {
+				if (d.couldKill) {
+					return d.dir;
+				}
 				if (d.area > max) {
 					max = d.area;
 					maxArea = d;

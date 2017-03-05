@@ -4,4 +4,5 @@ public class DirectionArea {
 	Direction dir;
 	int area;
 	boolean leadsToFood = false;
+	boolean couldKill = false;
 }
