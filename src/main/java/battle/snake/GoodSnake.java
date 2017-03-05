@@ -367,7 +367,7 @@ public class GoodSnake implements SnakeAI {
 				}
 			}
 		}
-		if (us.health < 40) {
+		if (us.health < 70) {
 			for (DirectionArea d : maxes) {
 				if (d.leadsToFood) {
 					System.out.println("going for food");
@@ -375,8 +375,8 @@ public class GoodSnake implements SnakeAI {
 				}
 			}
 		}
-		for (DirectionArea d : maxes) {
-			return d.dir;
+		if (!maxes.isEmpty()) {
+			return maxes.get((int)(Math.random() * maxes.size())).dir;
 		}
 		System.out.println("whoops");
 		return Direction.INVALID;
