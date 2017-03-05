@@ -282,6 +282,7 @@ public class GoodSnake implements SnakeAI {
 		}
 		Point p = new Point(0,0);
 		ArrayList<DirectionArea> areas = new ArrayList<DirectionArea>();
+		FoodDirection dirs;
 		if (food.size() > 0) {
 			Point closestFood = null;
 			int closest = Integer.MAX_VALUE;
@@ -292,27 +293,8 @@ public class GoodSnake implements SnakeAI {
 					closestFood = _p;
 				}
 			}
-			FoodDirection dirs = toFood(head, closestFood);
+		 dirs = toFood(head, closestFood)
 
-
-			if (valid.isValid(dirs.primary)) {
-				p.setTo(head);
-				p.add(dirs.primary);
-				DirectionArea da = new DirectionArea();
-				da.dir = dirs.primary;
-				da.area = floodArea(p, grid);
-				da.leadsToFood = true;
-				areas.add(da);
-			}
-			if (valid.isValid(dirs.backup)) {
-				p.setTo(head);
-				p.add(dirs.backup);
-				DirectionArea da = new DirectionArea();
-				da.dir = dirs.backup;
-				da.area = floodArea(p, grid);
-				da.leadsToFood = true;
-				areas.add(da);
-			}
 
 		}
 		if (valid.up) {
@@ -357,6 +339,15 @@ public class GoodSnake implements SnakeAI {
 				da.area = floodArea(p, grid);
 				da.leadsToFood = false;
 				areas.add(da);
+			}
+		}
+
+		if (dirs != null) {
+			for (DirectionArea da : areas) {
+				if (da.dir == dirs.primary || da.dir == dirs.backup) {
+					da.leadsToFood = true;
+				}
+
 			}
 		}
 
