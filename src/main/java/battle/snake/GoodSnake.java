@@ -383,7 +383,7 @@ public class GoodSnake implements SnakeAI {
 				}
 			}
 		}
-		if (us.health < 70) {
+		if (us.health < 75) {
 			for (DirectionArea d : maxes) {
 				if (d.leadsToFood) {
 					System.out.println("going for food");
