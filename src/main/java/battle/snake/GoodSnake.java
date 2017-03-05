@@ -293,7 +293,7 @@ public class GoodSnake implements SnakeAI {
 					closestFood = _p;
 				}
 			}
-		 dirs = toFood(head, closestFood)
+		 dirs = toFood(head, closestFood);
 
 
 		}
