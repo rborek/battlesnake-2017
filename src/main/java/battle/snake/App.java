@@ -73,7 +73,7 @@ public class App {
 		}
 		String gameId = "";
 		if (data.containsKey("id")) {
-			gameId = (String)data.get("id");
+			gameId = "" + (double)data.get("id");
 		}
 		Direction toMove = snake.move(width, height, snakes, food, self, turn, gameId);
 		response.type("application/json");
