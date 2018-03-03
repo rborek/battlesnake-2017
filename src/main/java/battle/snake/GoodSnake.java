@@ -158,6 +158,21 @@ public class GoodSnake implements SnakeAI {
 		return false;
 	}
 
+	void addAreaForDirection(ArrayList<DirectionArea> areas, TileEntry[][] grid, Point head, Point p, Direction direction) {
+		if (!alreadyAddedDir(areas, direction)) {
+			p.setTo(head);
+			p.add(Direction.UP);
+			DirectionArea da = new DirectionArea();
+			if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
+				da.couldKill = true;
+			}
+			da.dir = direction;
+			da.area = floodArea(p, grid);
+			da.leadsToFood = false;
+			areas.add(da);
+		}
+	}
+
 	@Override
 	public Direction move(int width, int height, ArrayList<Snake> snakes, ArrayList<Point> food, String self, int turn, String gameId) {
 		Snake us = null;
@@ -298,62 +313,10 @@ public class GoodSnake implements SnakeAI {
 
 
 		}
-		if (valid.up) {
-			if (!alreadyAddedDir(areas, Direction.UP)) {
-				p.setTo(head);
-				p.add(Direction.UP);
-				DirectionArea da = new DirectionArea();
-				if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
-					da.couldKill = true;
-				}
-				da.dir = Direction.UP;
-				da.area = floodArea(p, grid);
-				da.leadsToFood = false;
-				areas.add(da);
-			}
-		}
-		if (valid.down) {
-			if (!alreadyAddedDir(areas, Direction.DOWN)) {
-				p.setTo(head);
-				p.add(Direction.DOWN);
-				DirectionArea da = new DirectionArea();
-				if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
-					da.couldKill = true;
-				}
-				da.dir = Direction.DOWN;
-				da.area = floodArea(p, grid);
-				da.leadsToFood = false;
-				areas.add(da);
-			}
-		}
-		if (valid.left) {
-			if (!alreadyAddedDir(areas, Direction.LEFT)) {
-				p.setTo(head);
-				p.add(Direction.LEFT);
-				DirectionArea da = new DirectionArea();
-				if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
-					da.couldKill = true;
-				}
-				da.dir = Direction.LEFT;
-				da.area = floodArea(p, grid);
-				da.leadsToFood = false;
-				areas.add(da);
-			}
-		}
-		if (valid.right) {
-			if (!alreadyAddedDir(areas, Direction.RIGHT)) {
-				p.setTo(head);
-				p.add(Direction.RIGHT);
-				DirectionArea da = new DirectionArea();
-				if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
-					da.couldKill = true;
-				}
-				da.dir = Direction.RIGHT;
-				da.area = floodArea(p, grid);
-				da.leadsToFood = false;
-				areas.add(da);
-			}
-		}
+		addAreaForDirection(areas, grid, head, p, Direction.UP);
+		addAreaForDirection(areas, grid, head, p, Direction.DOWN);
+		addAreaForDirection(areas, grid, head, p, Direction.LEFT);
+		addAreaForDirection(areas, grid, head, p, Direction.RIGHT);
 
 		if (dirs != null) {
 			for (DirectionArea da : areas) {

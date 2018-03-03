@@ -37,8 +37,8 @@ public class App {
 		}
 		ArrayList<Snake> snakes = new ArrayList<>();
 		if (data.containsKey("snakes")) {
-			ArrayList snakeArray = (ArrayList)data.get("snakes");
-			for (Object entry : snakeArray) {
+			LinkedTreeMap map = (LinkedTreeMap)data.get("snakes");
+			for (Object entry : map.entrySet()) {
 				Snake curSnake = new Snake();
 				LinkedTreeMap snakeEntry = (LinkedTreeMap)entry;
 				curSnake.health = (int)(double)snakeEntry.get("health_points");
@@ -81,9 +81,6 @@ public class App {
 		System.out.println(responseString);
 		return responseString;
 	}
-
-
-
 
 	public static void main(String[] args) {
 		Spark.port(getHerokuAssignedPort());
