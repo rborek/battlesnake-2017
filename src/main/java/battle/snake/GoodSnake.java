@@ -1,7 +1,7 @@
 package battle.snake;
 
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class GoodSnake implements SnakeAI {
 	@Override
@@ -19,6 +19,52 @@ public class GoodSnake implements SnakeAI {
 		int len = quotes.length;
 		int rand = (int)(Math.random() * len);
 		return quotes[rand];
+	}
+
+	private static List<Direction> getPathToPoint(Point head, Point dest, ValidMoves validMoves, TileEntry[][] grid,
+			ArrayList<Snake> snakes, Snake self) {
+		List<Direction> path = new ArrayList<Direction>();
+		ArrayDeque<BFSContext> queue = new ArrayDeque<>();
+		ArrayList<Direction> startDir = validMoves.getValidDirections();
+
+		// starting points
+		for (Direction d : startDir) {
+			BFSContext context = new BFSContext();
+			context.path = new ArrayList<>();
+			context.visitedPoint = new HashSet<>();
+			context.p.x = head.x;
+			context.p.y = head.y;
+			context.p.add(d);
+			context.path.add(d);
+			queue.add(context);
+		}
+
+		while (!queue.isEmpty()) {
+			BFSContext context = queue.poll();
+			if (context.p.equals(dest)) {
+				return context.path;
+			}
+
+			Direction lastDir = context.path.get(context.path.size()-1);
+			Direction invalidDir = lastDir.oppositeDir();
+			for (Direction dir : Direction.ALL_DIRECTIONS) {
+				if (dir != invalidDir) {
+					BFSContext newContext = new BFSContext();
+					newContext.p.setTo(context.p);
+
+					if(context.visitedPoint.contains(newContext.p) || !tileIsSafe(grid[context.p.x][context.p.y], snakes, self)) {
+						continue;
+					}
+					context.path = new ArrayList<>();
+					newContext.path.addAll(context.path);
+					newContext.visitedPoint = (HashSet<Point>)context.visitedPoint.clone();
+					newContext.path.add(dir);
+					newContext.visitedPoint.add(context.p);
+					queue.add(newContext);
+				}
+			}
+		}
+		return path;
 	}
 
 	public static Direction lastMoved(Snake snake) {
@@ -85,7 +131,7 @@ public class GoodSnake implements SnakeAI {
 		return move;
 	}
 
-	public boolean tileIsSafe(TileEntry entry, ArrayList<Snake> snakes, Snake self) {
+	public static boolean tileIsSafe(TileEntry entry, ArrayList<Snake> snakes, Snake self) {
 		if (entry == null) {
 			return true;
 		}

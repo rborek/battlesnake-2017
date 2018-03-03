@@ -13,6 +13,9 @@ public enum Direction {
 	public String toString() {
 		return name;
 	}
+
+	public static final Direction[] ALL_DIRECTIONS = new Direction[]{UP, DOWN, LEFT, RIGHT};
+
 	public static Direction fromString(String str) {
 		if (str.equals("up")) {
 			return UP;
