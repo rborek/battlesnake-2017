@@ -20,7 +20,7 @@ public class App {
 			return "";
 		}
 		response.type("application/json");
-		String responseString =  "{\"color\":\"" + snake.getColor() + "\"," + "\"name\":\"" + snake.getName() + "\"" + "}";
+		String responseString =  "{\"color\":\"" + snake.getColor() + "\"," + "\"name\":\"" + snake.getName() + "\"" + ",\"head_url\":\"" + "http://www.icantbelieveitsnotbutter.com/Images/613/613-886354-6_300x300productdetail_original.png" + "\"" + "}";
 		System.out.println(responseString);
 		return responseString;
 	}
