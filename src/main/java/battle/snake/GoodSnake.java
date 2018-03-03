@@ -310,13 +310,20 @@ public class GoodSnake implements SnakeAI {
 				}
 			}
 		 dirs = toFood(head, closestFood);
-
-
 		}
-		addAreaForDirection(areas, grid, head, p, Direction.UP);
-		addAreaForDirection(areas, grid, head, p, Direction.DOWN);
-		addAreaForDirection(areas, grid, head, p, Direction.LEFT);
-		addAreaForDirection(areas, grid, head, p, Direction.RIGHT);
+
+		if (valid.up) {
+			addAreaForDirection(areas, grid, head, p, Direction.UP);
+		}
+		if (valid.down) {
+			addAreaForDirection(areas, grid, head, p, Direction.DOWN);
+		}
+		if (valid.left) {
+			addAreaForDirection(areas, grid, head, p, Direction.LEFT);
+		}
+		if (valid.right) {
+			addAreaForDirection(areas, grid, head, p, Direction.RIGHT);
+		}
 
 		if (dirs != null) {
 			for (DirectionArea da : areas) {
