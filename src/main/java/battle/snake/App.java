@@ -37,17 +37,17 @@ public class App {
 		}
 		ArrayList<Snake> snakes = new ArrayList<>();
 		if (data.containsKey("snakes")) {
-			LinkedTreeMap map = (LinkedTreeMap)data.get("snakes");
-			for (Object entry : map.entrySet()) {
+			ArrayList snakeArray = (ArrayList)((Map)data.get("snakes")).get("data");
+			for (Object entry : snakeArray) {
 				Snake curSnake = new Snake();
-				LinkedTreeMap snakeEntry = (LinkedTreeMap)((LinkedTreeMap.Entry)entry).getValue();
-				curSnake.health = (int)(double)snakeEntry.get("health_points");
+				LinkedTreeMap snakeEntry = (LinkedTreeMap)entry;
+				curSnake.health = (int)(double)snakeEntry.get("health");
 				curSnake.id = (String)snakeEntry.get("id");
 				curSnake.name = (String)snakeEntry.get("name");
 				curSnake.coords = new ArrayList<>();
-				for (Object coord : (ArrayList)snakeEntry.get("coords")) {
-					ArrayList coordArray = (ArrayList)(coord);
-					Point p = new Point((int)(double)coordArray.get(0), (int)(double)coordArray.get(1));
+				for (Object coord : (ArrayList)((Map)snakeEntry.get("body")).get("data")) {
+					Map coordMap = (Map)coord;
+					Point p = new Point((int)(double)coordMap.get("x"), (int)(double)coordMap.get("y"));
 					curSnake.coords.add(p);
 				}
 				snakes.add(curSnake);
@@ -55,7 +55,7 @@ public class App {
 		}
 		ArrayList<Point> food = new ArrayList<>();
 		if (data.containsKey("food")) {
-			ArrayList foodArray = (ArrayList)data.get("food");
+			ArrayList foodArray = (ArrayList)((Map)data.get("food")).get("data");
 			for (Object entry : foodArray) {
 				ArrayList coordArray = (ArrayList)(entry);
 				Point p = new Point((int)(double)coordArray.get(0), (int)(double)coordArray.get(1));
@@ -65,15 +65,15 @@ public class App {
 
 		String self = "";
 		if (data.containsKey("you")) {
-			self = (String)data.get("you");
+			self = (String)((Map)data.get("you")).get("id");
 		}
 		int turn = 0;
 		if (data.containsKey("turn")) {
 			turn = (int)(double)data.get("turn");
 		}
 		String gameId = "";
-		if (data.containsKey("game_id")) {
-			gameId = (String)data.get("game_id");
+		if (data.containsKey("id")) {
+			gameId = (String)data.get("id");
 		}
 		Direction toMove = snake.move(width, height, snakes, food, self, turn, gameId);
 		response.type("application/json");
@@ -81,6 +81,9 @@ public class App {
 		System.out.println(responseString);
 		return responseString;
 	}
+
+
+
 
 	public static void main(String[] args) {
 		Spark.port(getHerokuAssignedPort());
