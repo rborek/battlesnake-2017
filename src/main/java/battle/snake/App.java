@@ -57,8 +57,8 @@ public class App {
 		if (data.containsKey("food")) {
 			ArrayList foodArray = (ArrayList)((Map)data.get("food")).get("data");
 			for (Object entry : foodArray) {
-				ArrayList coordArray = (ArrayList)(entry);
-				Point p = new Point((int)(double)coordArray.get(0), (int)(double)coordArray.get(1));
+				Map coordMap = (Map)(entry);
+				Point p = new Point((int)(double)coordMap.get("x"), (int)(double)coordMap.get("y"));
 				food.add(p);
 			}
 		}
