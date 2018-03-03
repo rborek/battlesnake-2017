@@ -40,7 +40,7 @@ public class App {
 			LinkedTreeMap map = (LinkedTreeMap)data.get("snakes");
 			for (Object entry : map.entrySet()) {
 				Snake curSnake = new Snake();
-				LinkedTreeMap snakeEntry = (LinkedTreeMap)entry;
+				LinkedTreeMap snakeEntry = (LinkedTreeMap)((LinkedTreeMap.Entry)entry).getValue();
 				curSnake.health = (int)(double)snakeEntry.get("health_points");
 				curSnake.id = (String)snakeEntry.get("id");
 				curSnake.name = (String)snakeEntry.get("name");
