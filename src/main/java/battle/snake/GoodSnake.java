@@ -161,7 +161,7 @@ public class GoodSnake implements SnakeAI {
 	void addAreaForDirection(ArrayList<DirectionArea> areas, TileEntry[][] grid, Point head, Point p, Direction direction) {
 		if (!alreadyAddedDir(areas, direction)) {
 			p.setTo(head);
-			p.add(Direction.UP);
+			p.add(direction);
 			DirectionArea da = new DirectionArea();
 			if (grid[p.x][p.y] != null && grid[p.x][p.y].type == TileType.CAN_KILL) {
 				da.couldKill = true;
