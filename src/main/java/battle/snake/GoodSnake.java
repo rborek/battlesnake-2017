@@ -58,7 +58,7 @@ public class GoodSnake implements SnakeAI {
 					if(context.visitedPoint.contains(newContext.p) || !tileIsSafe(grid[context.p.x][context.p.y], snakes, self)) {
 						continue;
 					}
-					newContext.path = new ArrayList<>();
+					context.path = new ArrayList<>();
 					newContext.path.addAll(context.path);
 					newContext.visitedPoint = (HashSet<Point>)context.visitedPoint.clone();
 					newContext.path.add(dir);
@@ -404,43 +404,13 @@ public class GoodSnake implements SnakeAI {
 		}
 
 		if (us.health < 75 && closestFood != null) {
-			ValidMoves possibleMoves = new ValidMoves();
-			possibleMoves.up = false;
-			possibleMoves.down = false;
-			possibleMoves.right = false;
-			possibleMoves.left = false;
 
 			for (DirectionArea d : maxes) {
-				possibleMoves.enableDirection(d.dir);
-			}
-			if (targetFood == null || !targetFood.equals(closestFood)) {
-				currentPathToFood = getPathToPoint(head, closestFood, possibleMoves, grid, snakes, us);
-				targetFood = closestFood;
-			} else {
-				// pre-existing path to food
-				if (targetFood.equals(closestFood)) {
-					Point cur = new Point(head.x, head.y);
-					boolean validPath = true;
-					for (Direction d : currentPathToFood) {
-						cur.add(d);
-						if (!tileIsSafe(grid[cur.x][cur.y], snakes, us)) {
-							validPath = false;
-							break;
-						}
-					}
-					if (!validPath) {
-						currentPathToFood = getPathToPoint(head, closestFood, possibleMoves, grid, snakes, us);
-					}
-				} else {
-					currentPathToFood = getPathToPoint(head, closestFood, possibleMoves, grid, snakes, us);
+				if (d.leadsToFood) {
+					return d.dir;
 				}
 			}
 
-			if (currentPathToFood != null && !currentPathToFood.isEmpty()) {
-				Direction toMove = currentPathToFood.get(0);
-				currentPathToFood.remove(0);
-				return toMove;
-			}
 		}
 
 
