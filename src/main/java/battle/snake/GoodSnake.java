@@ -58,7 +58,7 @@ public class GoodSnake implements SnakeAI {
 					if(context.visitedPoint.contains(newContext.p) || !tileIsSafe(grid[context.p.x][context.p.y], snakes, self)) {
 						continue;
 					}
-					context.path = new ArrayList<>();
+					newContext.path = new ArrayList<>();
 					newContext.path.addAll(context.path);
 					newContext.visitedPoint = (HashSet<Point>)context.visitedPoint.clone();
 					newContext.path.add(dir);
