@@ -4,6 +4,9 @@ package battle.snake;
 import java.util.*;
 
 public class GoodSnake implements SnakeAI {
+
+	private List<Direction> currentPathToFood = null;
+	private Point targetFood = null;
 	@Override
 	public String getName() {
 		return "I Can't Believe It's Not A Snake!";
@@ -345,8 +348,8 @@ public class GoodSnake implements SnakeAI {
 		Point p = new Point(0,0);
 		ArrayList<DirectionArea> areas = new ArrayList<DirectionArea>();
 		FoodDirection dirs = null;
+		Point closestFood = null;
 		if (food.size() > 0) {
-			Point closestFood = null;
 			int closest = Integer.MAX_VALUE;
 			for (Point _p : food) {
 				int dist = Math.abs(head.x - _p.x) + Math.abs(head.y - _p.y);
@@ -399,14 +402,48 @@ public class GoodSnake implements SnakeAI {
 				}
 			}
 		}
-		if (us.health < 75) {
+
+		if (us.health < 75 && closestFood != null) {
+			ValidMoves possibleMoves = new ValidMoves();
+			possibleMoves.up = false;
+			possibleMoves.down = false;
+			possibleMoves.right = false;
+			possibleMoves.left = false;
+
 			for (DirectionArea d : maxes) {
-				if (d.leadsToFood) {
-					System.out.println("going for food");
-					return d.dir;
+				possibleMoves.enableDirection(d.dir);
+			}
+			if (targetFood == null || !targetFood.equals(closestFood)) {
+				currentPathToFood = getPathToPoint(head, closestFood, possibleMoves, grid, snakes, us);
+				targetFood = closestFood;
+			} else {
+				// pre-existing path to food
+				if (targetFood.equals(closestFood)) {
+					Point cur = new Point(head.x, head.y);
+					boolean validPath = true;
+					for (Direction d : currentPathToFood) {
+						cur.add(d);
+						if (!tileIsSafe(grid[cur.x][cur.y], snakes, us)) {
+							validPath = false;
+							break;
+						}
+					}
+					if (!validPath) {
+						currentPathToFood = getPathToPoint(head, closestFood, possibleMoves, grid, snakes, us);
+					}
+				} else {
+					currentPathToFood = getPathToPoint(head, closestFood, possibleMoves, grid, snakes, us);
 				}
 			}
+
+			if (currentPathToFood != null && !currentPathToFood.isEmpty()) {
+				Direction toMove = currentPathToFood.get(0);
+				currentPathToFood.remove(0);
+				return toMove;
+			}
 		}
+
+
 		if (!maxes.isEmpty()) {
 			return maxes.get((int)(Math.random() * maxes.size())).dir;
 		}

@@ -2,7 +2,7 @@ package battle.snake;
 
 import java.util.ArrayList;
 
-public class ValidMoves {
+public class 	ValidMoves {
 	public boolean left = true;
 	public boolean right = true;
 	public boolean up = true;
@@ -43,6 +43,25 @@ public class ValidMoves {
 				break;
 			case LEFT:
 				left = false;
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void enableDirection(Direction dir) {
+		switch (dir) {
+			case UP:
+				up = true;
+				break;
+			case DOWN:
+				down = true;
+				break;
+			case RIGHT:
+				right = true;
+				break;
+			case LEFT:
+				left = true;
 				break;
 			default:
 				break;
